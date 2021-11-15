@@ -5,8 +5,9 @@
 
 
 <div class="main">
+    <EditForm Model="OrderState.Order.DeliveryAddress" OnValidSubmit="PlaceOrder">
     <div class="checkout-cols">
-        <EditForm Model="OrderState.Order.DeliveryAddress" OnValidSubmit="PlaceOrder">
+        
             <div class="checkout-order-details">
                 <h4>Review order</h4>
                 <OrderReview Order="OrderState.Order" />
@@ -16,13 +17,15 @@
                 <AddressEditor Address="OrderState.Order.DeliveryAddress" />
             </div>
             <DataAnnotationsValidator />
-        </EditForm>
-    </div>
+            </div>
 
-
-    <button class="checkout-button btn btn-warning" @onclick="PlaceOrder">
+             <button class="checkout-button btn btn-warning" type="submit">
         Place order
     </button>
+        </EditForm>
+
+
+   
 </div>
 
 

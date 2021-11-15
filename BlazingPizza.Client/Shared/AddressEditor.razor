@@ -18,6 +18,7 @@
     <label>Line 2:</label>
     <div>
         <InputText @bind-Value="Address.Line2" />
+        <ValidationMessage For="@(() => Address.Line2)" />
     </div>
 </div>
 
