@@ -1,4 +1,6 @@
-﻿namespace BlazingPizza.Client
+﻿using System.Collections.Generic;
+
+namespace BlazingPizza.Client
 {
     public class OrderState
     {

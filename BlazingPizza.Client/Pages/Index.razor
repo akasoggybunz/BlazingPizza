@@ -12,7 +12,7 @@
         {
             @foreach (var special in specials)
             {
-                <li @onclick="@(() => ShowConfigurePizzaDialog(special))" style="background-image: url('@special.ImageUrl')">
+                <li @onclick="@(() => OrderState.ShowConfigurePizzaDialog(special))" style="background-image: url('@special.ImageUrl')">
                     <div class="pizza-info">
                         <span class="title">@special.Name</span>
                         @special.Description
@@ -33,7 +33,7 @@
 
             @foreach (var configuredPizza in order.Pizzas)
             {
-                <ConfiguredPizzaItem Pizza="configuredPizza" OnRemoved="@(() => RemoveConfiguredPizza(configuredPizza))" />
+                <ConfiguredPizzaItem Pizza="configuredPizza" OnRemoved="@(() => OrderState.RemoveConfiguredPizza(configuredPizza))" />
             }
         </div>
     }
@@ -45,26 +45,27 @@
     <div class="order-total @(order.Pizzas.Any() ? "" : "hidden")">
         Total:
         <span class="total-price">@order.GetFormattedTotalPrice()</span>
-        <button class="btn btn-warning" disabled="@(order.Pizzas.Count == 0)" @onclick="PlaceOrder">
-            Order >
-        </button>
+        <a href="checkout" class="@(OrderState.Order.Pizzas.Count == 0 ? "btn btn-warning disabled" : "btn btn-warning")">
+    Order >
+</a>
+
     </div>
 </div>
 
 
-@if (showingConfigureDialog)
+@if (OrderState.ShowingConfigureDialog)
 {
     <ConfigurePizzaDialog 
-    Pizza="configuringPizza" 
-    OnCancel="CancelConfigurePizzaDialog"  
-    OnConfirm="ConfirmConfigurePizzaDialog" />
+    Pizza="OrderState.ConfiguringPizza" 
+    OnCancel="OrderState.CancelConfigurePizzaDialog"  
+    OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
 }
 
 @code {
 
     List<PizzaSpecial> specials;
 Order order => OrderState.Order;
-;
+
 
 
 
@@ -75,13 +76,13 @@ Order order => OrderState.Order;
 
 
 
-   async Task PlaceOrder()
+  @* async Task PlaceOrder()
 {
     var response = await HttpClient.PostAsJsonAsync("orders", OrderState.Order);
     var newOrderId = await response.Content.ReadFromJsonAsync<int>();
     OrderState.ResetOrder();
     NavigationManager.NavigateTo($"myorders/{newOrderId}");
-}
+}*@
 
 
 
