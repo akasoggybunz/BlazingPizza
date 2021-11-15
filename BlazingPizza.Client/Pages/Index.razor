@@ -1,5 +1,8 @@
 ﻿@page "/"
 @inject HttpClient HttpClient
+@inject OrderState OrderState
+@inject NavigationManager NavigationManager
+
 
 
 <div class="main">
@@ -48,20 +51,20 @@
     </div>
 </div>
 
+
 @if (showingConfigureDialog)
 {
-    <ConfigurePizzaDialog Pizza="configuringPizza"
-                      OnCancel="CancelConfigurePizzaDialog"
-                      OnConfirm="ConfirmConfigurePizzaDialog" />
-
-
+    <ConfigurePizzaDialog 
+    Pizza="configuringPizza" 
+    OnCancel="CancelConfigurePizzaDialog"  
+    OnConfirm="ConfirmConfigurePizzaDialog" />
 }
 
 @code {
+
     List<PizzaSpecial> specials;
-    Pizza configuringPizza;
-    bool showingConfigureDialog;
-    Order order = new Order();
+Order order => OrderState.Order;
+;
 
 
 
@@ -70,49 +73,18 @@
         specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials");
     }
 
-    /// <summary>
-    /// Show when pizza is clicked for more options
-    /// </summary>
-    /// <param name="special">Pizza selected</param>
-    void ShowConfigurePizzaDialog(PizzaSpecial special)
-    {
-        configuringPizza = new Pizza()
-            {
-                Special = special,
-                SpecialId = special.Id,
-                Size = Pizza.DefaultSize,
-                Toppings = new List<PizzaTopping>(),
-            };
-
-        showingConfigureDialog = true;
-    }
-
-    void ConfirmConfigurePizzaDialog()
-    {
-        order.Pizzas.Add(configuringPizza);
-        configuringPizza = null;
-
-        showingConfigureDialog = false;
-    }
 
 
-    void CancelConfigurePizzaDialog()
-    {
-        configuringPizza = null;
-        showingConfigureDialog = false;
-    }
+   async Task PlaceOrder()
+{
+    var response = await HttpClient.PostAsJsonAsync("orders", OrderState.Order);
+    var newOrderId = await response.Content.ReadFromJsonAsync<int>();
+    OrderState.ResetOrder();
+    NavigationManager.NavigateTo($"myorders/{newOrderId}");
+}
 
 
-    void RemoveConfiguredPizza(Pizza pizza)
-    {
-        order.Pizzas.Remove(pizza);
-    }
 
-    async Task PlaceOrder()
-    {
-        await HttpClient.PostAsJsonAsync("orders", order);
-        order = new Order();
-    }
 
 
 
