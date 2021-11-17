@@ -2,6 +2,8 @@
 # Build Your First Cross Platform Blazor App in a Day
 Repo for LIVE! 360 2021 Hands-on lab, Orlando, FL Orginal Author and all credit goes to [Brian Randell of Github](https://github.com/brianrandell)
 
+Use the zip folder as the starting project files to start the lab. The src is my own attempt at trying the lab.
+
 ## The following are required on Windows or macOS [Please see each product’s operating system version requirements for the items listed below]:
 
 - The .NET 5.0 SDK (SDK 5.0.403) from [https://dotnet.microsoft.com/download/dotnet/5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
