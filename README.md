@@ -1,5 +1,6 @@
+
 # Build Your First Cross Platform Blazor App in a Day
-Repo for LIVE! 360 2021 Hands-on lab, Orlando, FL
+Repo for LIVE! 360 2021 Hands-on lab, Orlando, FL Orginal Author and all credit goes to [Brian Randell of Github](https://github.com/brianrandell)
 
 ## The following are required on Windows or macOS [Please see each product’s operating system version requirements for the items listed below]:
 
